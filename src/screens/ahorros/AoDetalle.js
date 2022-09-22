@@ -40,7 +40,7 @@ export default function AoDetalle() {
 
     }).then(res => res.json())
     .then(resData =>{
-      alert(resData.email);
+      setMessage(resData);
       console.log(resData)
     })
   }
@@ -53,11 +53,14 @@ export default function AoDetalle() {
     <View style={styles.cardView}>
       <View style={styles.textView}>
         <Text style={styles.itemTitle}> NR </Text>
-        <Text style={styles.itemDescription}>{message}</Text>
-        <Text style={styles.itemSaldo}> SALDO 5922 bs.</Text>
+        <Text style={styles.itemDescription}>{message.email}</Text>
+        <Text style={styles.itemSaldo}>12321bs</Text>
       </View>
     </View> 
 
+    <Text > {message.accessToken} </Text>
+        <Text >{message.email}</Text>
+        <Text > {message.roles}</Text>
     <View style={styles.btnFechas}>
     <TouchableOpacity onPress={signin}>
           <Text style={styles.btnText}>Mes</Text>
