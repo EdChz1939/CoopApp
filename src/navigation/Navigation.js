@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View, Image} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Aoinicio from '../screens/ahorros/Aoinicio';
+import UsuarioLogin from '../screens/Account/UsuarioLogin';
 import LoginForm from '../components/Login/LoginForm';
 import AoDetalle from '../screens/ahorros/AoDetalle';
+import AhorrosStack from './AhorrosStack';
+import {screen} from '../utils';
+import { AuthContext } from '../context/AuthContext';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
 export default function Navigation() {
+
+  const {userInfo} = useContext(AuthContext);
   
   return (
     <Tab.Navigator  
@@ -20,13 +27,9 @@ export default function Navigation() {
         backgroundColor: '#88C437',
       }
     }}>
-      <Tab.Screen options={{
-      tabBarStyle: {  display: 'none' }, 
-      headerShown: false
-      }} 
-      name="Exit"
-      component={LoginForm}  />
-      <Tab.Screen name="AoInicio" component={Aoinicio} options={{headerShown: false, tabBarIcon:({focused}) => (
+      {userInfo.accessToken? (
+        <>
+      <Tab.Screen name= {screen.Ahorros.tab} component={AhorrosStack} options={{headerShown: false, tabBarIcon:({focused}) => (
         <View style= {{alignItems: 'center', justifyContent:'center', top:4}}>
           <Image 
           source={require('../../src/assets/3.png')}
@@ -43,8 +46,8 @@ export default function Navigation() {
         </View>
       )
        }} />
-       
-      <Tab.Screen name="credito" component={AoDetalle} options={{headerShown: false, tabBarIcon:({focused}) => (
+
+       <Tab.Screen name="credito" component={AoDetalle} options={{headerShown: false, tabBarIcon:({focused}) => (
         <View style= {{alignItems: 'center', justifyContent:'center', top:4}}>
           <Image 
           source={require('../../src/assets/4.png')}
@@ -61,7 +64,8 @@ export default function Navigation() {
         </View>
       )
        }} />
-      <Tab.Screen name="creditos" component={Aoinicio}options={{headerShown: false, tabBarIcon:({focused}) => (
+
+        <Tab.Screen name="creditos" component={Aoinicio}options={{headerShown: false, tabBarIcon:({focused}) => (
         <View style= {{alignItems: 'center', justifyContent:'center', top:4}}>
           <Image 
           source={require('../../src/assets/5.png')}
@@ -78,6 +82,24 @@ export default function Navigation() {
         </View>
       )
        }} />
+
+       </>
+      ) : 
+      <Tab.Screen options={{
+        tabBarStyle: {  display: 'none' }, 
+        headerShown: false
+        }} 
+        name="Exit"
+        component={UsuarioLogin}  />
+  
+  
+      }
+
+      
+      
+  
+
+
    
     </Tab.Navigator>
   )

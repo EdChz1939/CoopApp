@@ -2,7 +2,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import { createStackNavigator } from "@react-navigation/stack";
 import React from 'react'
 import AoDetalle from '../screens/ahorros/AoDetalle';
-
+import AoInicio from '../screens/ahorros/Aoinicio';
+import {screen} from '../utils'
 
 const Stack = createStackNavigator();
 
@@ -10,9 +11,14 @@ export default function AhorrosStack() {
     return (
         <Stack.Navigator>
           <Stack.Screen
-            name="Detalle"
-            component={AoDetalle}
+            name= {screen.Ahorros.Ahorros}
+            component={AoInicio}
             options={{ title: "detalle ahorro" }}
+          />
+          <Stack.Screen
+            name= {screen.Ahorros.AoDetalle}
+            component={AoDetalle}
+            options={{  tabBarShowLabel: false, title: "detalle ahorro" }}
           />
         </Stack.Navigator>
       );
