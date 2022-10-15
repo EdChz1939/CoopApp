@@ -1,9 +1,11 @@
 import React,{useContext, useState} from 'react'
 import { Image,StyleSheet, Text, TextInput, View, Touchable, TouchableOpacity, Button } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
-import {screen} from '../../utils'
+import {ROUTES} from '../../utils'
 import { AuthContext } from '../../context/AuthContext';
+
 import Spinner from 'react-native-loading-spinner-overlay';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default function UsuarioLogin({props}) {
 
@@ -13,44 +15,54 @@ export default function UsuarioLogin({props}) {
   const {isLoading, login} = useContext(AuthContext);
 
   const navigation = useNavigation();
+  
+  var nombre = '-Cooperativa de Ahorro y Credito lab. Cobee RL.';
 
-  const goToAoDetalle = () =>{
-     navigation.navigate('AoInicio')
-    //navigation.navigate(screen.Ahorros.AoDetalle, {screen: screen.account.account})
-  }
+  
   return (
-    
+    <KeyboardAwareScrollView contentContainerStyle={styles.scrollContainer} //style changed to contentContainerStyle
+    showsHorizontalScrollIndicator={false}
+    showsVerticalScrollIndicator={false}>
   <View style={styles.view}>
     <Spinner visible={isLoading}/>
-     <Image style={styles.logo} source = {require('../../assets/2.png')}/>
+
+    <Text style = {styles.textocTitulo}>{nombre}</Text>
+     <Image style={styles.logo} source = {require('../../assets/logoins_vin.bmp')}/>
      <Text>{test}</Text>
     <TextInput
       style={styles.input}
-      placeholder="Usuarioss"
+      placeholder="Usuarios"
       value={user}
       onChangeText={text => setUser(text)}
     />
     <TextInput
       style={styles.input}
-      placeholder="Contrase;a"
+      placeholder="Clave"
       secureTextEntry={false}
       value={password}
       onChangeText={text => setPassword(text)}
     />
-    <TouchableOpacity  onPress={() => {login(user, password);}}>
-        <Text style={styles.btnText}>Iniciar session</Text>
-    </TouchableOpacity>
+      <TouchableOpacity  onPress={() => {login(user, password);}}>
+      <Text style={styles.btnText}>Iniciar session</Text>
+      </TouchableOpacity>
     
   </View>
+  </KeyboardAwareScrollView>
 );
 }
 /*
 088c84
-
+    <TouchableOpacity  onPress={() => {login(user, password);}}>
+        <Text style={styles.btnText}>Iniciar session</Text>
+    </TouchableOpacity>
 008F39 verde cl
 buscar el borde color del btn
 */
 const styles = StyleSheet.create({
+
+  textocTitulo:{
+    color: "ffff"
+  },
   input:{
       height: 50,
       color:"#000000",
@@ -76,15 +88,19 @@ const styles = StyleSheet.create({
       padding:10,
   },
   view: {
-    backgroundColor: '#149414',
-    height: '100%',
     flex: 1,
+    backgroundColor: '#149414',
     alignItems:'center',
+    justifyContent: 'center',
 },
 logo:{
-    width: '63%',
-    height: 240,
+    borderRadius: 50,
+    width: '50%',
+    height: 160,
     marginTop:50,
     marginBottom: 50,
+},
+scrollContainer:{
+  flexGrow:1
 }
 })

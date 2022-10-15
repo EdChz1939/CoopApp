@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native'
 import React,{Component, useState, useEffect, useContext} from 'react'
-import AoCuentas from './AoCuentas';
+import AoCuentas from '../ahorros/AoCuentas';
 import { FlatList } from 'react-native-gesture-handler';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { LogBox, LogBoxNotification } from 'react-native-web-log-box'
@@ -10,7 +10,6 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../../context/AuthContext';
 
 
-const { width, height } = Dimensions.get('window')
 
 LogBox.ignoreLogs(["Invalid prop `textStyle` of type `array` supplied to `Cell`"]);
 FlatList
@@ -20,12 +19,11 @@ const tableData= [
   [ '08 AGOS', 'Deposito', '200,00'],
   [ '08 AGOS', 'Deposito', '200,00'],
   [ '08 AGOS', 'Retiro', '-1.000,00'],
-  [ '08 AGOS', 'Retiro', '-1.000,00'],
   ['08 AGOS', 'Retiro', '-1.000,00']
 ]
 
 
-export default function AoInicio(props) {
+export default function CrInicio(props) {
 
   const {userInfo, logout, isLoading} = useContext(AuthContext);    
 
@@ -33,7 +31,7 @@ export default function AoInicio(props) {
   const navigation = useNavigation();
 
   const goToAoDetalle = () =>{
-    navigation.navigate(ROUTES.AO_DETALLE)
+    navigation.navigate(ROUTES.CR_DETALLE)
     //navigation.navigate(screen.Ahorros.AoDetalle, {screen: screen.account.account})
   }
 
@@ -42,52 +40,32 @@ export default function AoInicio(props) {
     
     <AoCuentas/>
     <View style={styles.container}>
-        <Table borderStyle={{borderWidth: 1, borderColor: '#9c9c9c'}}>
+        <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
           <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
           <Rows data={tableData}  textStyle={styles.text}/>
         </Table>
     </View>
-
-      <TouchableOpacity
-        onPress={goToAoDetalle}
-				style={styles.buttonContainer4}
-			>
-				<Text style={styles.buttonText4}>Ver Todos los Movimientos</Text>
-			</TouchableOpacity>
-
+    <TouchableOpacity onPress={goToAoDetalle}>
+            <Text style={styles.btnText}>Todos los movimientos</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={logout}>
+            <Text style={styles.btnText}>Cerrar Session</Text>
+      </TouchableOpacity>
   </View>
-
-
   )
 }
 
 
 const styles = StyleSheet.create({
-
-  buttonContainer4: {
-    width: width - 200,
-    height: height / 14,
-    backgroundColor: '#fff',
-    margin: 10,
-    borderRadius: 10,
-    shadowColor: '#000',
-    justifyContent: 'center',
-		alignItems: 'center',
-    shadowOffset: { width: 0.5, height: 0.5 },
-    shadowOpacity: 0.5,
-    shadowRadius: 3,
-    elevation: 5,
-	},
-	buttonText4: {
-		fontSize: 15,
-	},
   container: {
+     flex: 1,
      padding: 16,
-      paddingTop: 10, 
+      paddingTop: 30, 
+      backgroundColor: '#fff'
      },
   head: {
      height: 40, 
-    backgroundColor: '#bababa'
+    backgroundColor: '#f1f8ff'
    },
   text: { 
     margin: 6,
@@ -115,6 +93,8 @@ const styles = StyleSheet.create({
     padding:10,
 },
   background: {
+    backgroundColor: '#FFFFFF',
+    height: '100%',
   },
   userName: {
     color: '#000000',

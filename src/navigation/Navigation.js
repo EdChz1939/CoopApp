@@ -11,8 +11,13 @@ import {screen} from '../utils';
 import { AuthContext } from '../context/AuthContext';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
+
+const Drawer = createDrawerNavigator();
+
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
 
 
 export default function Navigation() {
@@ -29,6 +34,7 @@ export default function Navigation() {
     }}>
       {userInfo.accessToken? (
         <>
+
       <Tab.Screen name= {screen.Ahorros.tab} component={AhorrosStack} options={{headerShown: false, tabBarIcon:({focused}) => (
         <View style= {{alignItems: 'center', justifyContent:'center', top:4}}>
           <Image 

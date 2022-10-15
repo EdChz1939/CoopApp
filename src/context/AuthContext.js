@@ -15,7 +15,7 @@ export const AuthProvider = ({children}) => {
   const login = (username, password) => {
     setIsLoading(true);
     axios
-      .post(`${BASE_URL}/signin`, {
+      .post(`${BASE_URL}/auth/signin`, {
         username,
         password,
       })
@@ -32,6 +32,7 @@ export const AuthProvider = ({children}) => {
       });
   };
 
+    ////////-------
   const logout = () => {
     setIsLoading(true);
 

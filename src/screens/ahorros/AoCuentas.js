@@ -1,55 +1,103 @@
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native'
 import { Picker } from '@react-native-picker/picker';
-import React,{Component} from 'react'
+import { BASE_URL } from "../../config";
+import React,{Component, useContext, useState, useEffect} from 'react';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from '../../context/AuthContext';
+import axios from 'axios';
 
 
 const { width, height } = Dimensions.get('window')
 
-class AoCuentas extends Component {
-  state = { user: ''}
-  updateUser = (user) =>{
-    this.setState({user:user})
-  }
-  render(){
+export default function AoCuentas(props) {
+    const {userInfo} = useContext(AuthContext);    
+    const [user, setuser] = useState("");
+    const [dropDown, setDropDown] = useState("");
+    const [cuentas, setCuentas] = useState([]);
+    const codigoUsuairo = userInfo.codigo;
+    const [selectCuenta, setSelectCuenta] = useState([]);
+
+   
+    const getCuentass = () => {
+      axios
+        .get(`${BASE_URL}/ahorros/${codigoUsuairo}`, {
+          headers: {Authorization: `Bearer ${userInfo.access_token}`},
+        })
+        .then(res => {
+          let userCuentas = res.data;
+        //  console.log(userCuentas);
+       //   console.log(codigoUsuairo);
+          setCuentas(userCuentas);
+          AsyncStorage.setItem('cuentasInfo', JSON.stringify(userCuentas));   
+       
+       
+        })
+        .catch(e => {
+          console.log(`cuentas list error ${e}`);
+          console.log(codigoUsuairo);
+        });
+    };
+
+    useEffect(() => {
+      getCuentass();
+    }, [])
+
+    let cuentaSelect= cuentas;
+    cuentaSelect = cuentaSelect.filter(function(item){
+      return item.cuenta == dropDown;
+   }).map(function({cagencia, cempresa, desproducto,saldo}){
+       return {cagencia, cempresa, desproducto, saldo};
+   });
+      //console.log(cuentaSelect.cagencia.toString());
+   
+    
+    //state = {
+    //  cuenta:'Cuentas'
+    //}
+    //const {user, logout, loading} = useContext(AuthContext);
     return(
 
     <>
-    <View style={styles.card}>
-    <Picker  itemStyle={{color:'white'}}  selectedValue ={this.state.user} onValueChange = {this.updateUser}>
-      <Picker.Item label = "Selecionar cuenta" value = "Nr"/>
-      <Picker.Item label = "1210200117 Detalle Ahorro libre" value = " 1210200117"/>
-      <Picker.Item label = "1210200" value = " 1210200"/>
-      <Picker.Item label = "12102444447" value = " 12102444447"/>
-    </Picker>
-    </View>
-    
-
     <View style={styles.cardView}>
-      <View style={styles.textView}>
-        <Text style={styles.itemTitle}> NR {this.state.user}</Text>
-        <Text style={styles.itemDescription}>Caja de ahorros</Text>
-        <Text style={styles.itemSaldo}> SALDO 5922 bs.</Text>
+    <Picker 
+          
+          itemStyle={{color:'white'}}  
+          selectedValue ={dropDown} 
+          onValueChange = {setDropDown}
+    >
+       <Picker.Item label = "SELECIONAR CUENTA" value = "Nr" key = "0"/>
+      {cuentas.map((cuentas,index = 1) => <Picker.Item label ={cuentas.cuenta + " " + cuentas.desproducto.toString() } value ={cuentas.cuenta.toString()} key={index}/>)}
+     
+    
+    </Picker>
+        <View style={styles.textView}>
+        <Text style={styles.itemTitle}>NR {dropDown} </Text>
+        <Text style={styles.itemDescription}>{cuentaSelect[0].desproducto.toString()}</Text>
+        <Text style={styles.itemSaldo}> Saldo {cuentaSelect[0].saldo.toString()}  Bs</Text>
+
+
       </View>
-    </View> 
+    </View>
+      <>
+     
+      </>
     </>
     )
   } 
-}
 
 
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#c8e1ff',
+    backgroundColor: '#fff',
     height: 60,
     margin: 10,
     borderRadius: 16,
   },
   cardView: {
-    flex: 0.4,
     width: width - 20,
-    height: height / 23,
-    backgroundColor: '#88C437',
+    height: height / 4,
+    backgroundColor: '#fff',
     margin: 10,
     borderRadius: 10,
     shadowColor: '#000',
@@ -59,14 +107,12 @@ const styles = StyleSheet.create({
     elevation: 5,
 },
 textView: {
-    position: 'relative',
+     margin: 10,
     bottom: 10,
-    margin: 30,
     left: 5,
 },
 itemTitle: {
-    color: 'white',
-    fontSize: 25,
+    fontSize: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0.8, height: 0.8 },
     shadowOpacity: 1,
@@ -76,7 +122,7 @@ itemTitle: {
     elevation: 5
 },
 itemDescription: {
-    color: 'white',
+
     fontSize: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0.8, height: 0.8 },
@@ -85,11 +131,10 @@ itemDescription: {
     elevation: 5
 },
 itemSaldo: {
-    color: 'white',
+
     textAlign: 'right',
-    fontSize: 20,
+    fontSize: 15,
     shadowColor: '#000',
 }
 });
 
-export default AoCuentas;

@@ -1,1 +1,4 @@
-export * from "./screenName"
+import ROUTES from './routes'
+import COLORS from './colors'
+export {ROUTES, COLORS};
+export * from "./screenName";
