@@ -14,95 +14,96 @@ import { Table, Row, Rows } from 'react-native-table-component';
 
 const { width, height } = Dimensions.get('window')
 
-export default function AoCuentas(props) {
-    const navigation = useNavigation();
-    const {userInfo} = useContext(AuthContext);    
-    const [dropDown, setDropDown] = useState("");
-    const [cuentas, setCuentas] = useState([]);
-    const codigoUsuairo = userInfo.codigo;
-    //Movimientos
-    const [Movimientos, setMovimientos] = useState([]);
-    const [Movimientos2, setMovimientos2] = useState([]);
+export default function CrCuentas(props) {
 
-    const goToAoDetalle = () =>{
-      navigation.navigate(ROUTES.AO_DETALLE, { numeroCuenta: dropDown, desproducto : cuentaSelect[0].desproducto ,  saldo: cuentaSelect[0].saldo })
-      //navigation.navigate(screen.Ahorros.AoDetalle, {screen: screen.account.account})
-    }
+  const navigation = useNavigation();
+  const {userInfo} = useContext(AuthContext);    
+  const [dropDown, setDropDown] = useState("");
+  const [cuentas, setCuentas] = useState([]);
+  const codigoUsuairo = userInfo.codigo;
+  //Movimientos
+  const [Movimientos, setMovimientos] = useState([]);
+  const [Movimientos2, setMovimientos2] = useState([]);
 
-    const getCuentass = () => {
-      axios
-        .get(`${BASE_URL}/ahorros/${codigoUsuairo}`, {
-          headers: {Authorization: `Bearer ${userInfo.access_token}`},
-        })
-        .then(res => {
-          let userCuentas = res.data;
-        //  console.log(userCuentas);
-         // console.log("cuentas");
-          setCuentas(userCuentas);
-          AsyncStorage.setItem('cuentasInfo', JSON.stringify(userCuentas));          
-        })
-        .catch(e => {
-          console.log(`cuentas list error ${e}`);
-       //   console.log(codigoUsuairo);
-        });
-    };
+  const goToAoDetalle = () =>{
+    navigation.navigate(ROUTES.CR_DETALLE, { numeroCuenta: dropDown, desproducto : cuentaSelect[0].desproducto ,  saldo: cuentaSelect[0].saldo })
+    //navigation.navigate(screen.Ahorros.AoDetalle, {screen: screen.account.account})
+  }
 
-    const getMovimientos = () => {
-      axios
-        .get(`${BASE_URL}/ahorros/mov/${dropDown}/5`, {
-          headers: {Authorization: `Bearer ${userInfo.access_token}`},
-        })
-        .then(res => {
+  const getCuentass = () => {
+    axios
+      .get(`${BASE_URL}/ahorros/${codigoUsuairo}`, {
+        headers: {Authorization: `Bearer ${userInfo.access_token}`},
+      })
+      .then(res => {
+        let userCuentas = res.data;
+      //  console.log(userCuentas);
+       // console.log("cuentas");
+        setCuentas(userCuentas);
+        AsyncStorage.setItem('cuentasInfo', JSON.stringify(userCuentas));          
+      })
+      .catch(e => {
+        console.log(`cuentas list error ${e}`);
+     //   console.log(codigoUsuairo);
+      });
+  };
 
-          let Movimientos5 = res.data;
-          setMovimientos(Movimientos5)
-          //setMovimientos2(JSON.stringify(Movimientos5))
-         // console.log("Movimientos");
-          //console.log(res.data);
-          AsyncStorage.setItem('Movimientos', JSON.stringify(Movimientos5));   
-       
-        })
-        .catch(e => {
-          console.log(`movimientos list error ${e}`);
-          console.log(codigoUsuairo);
-        });
-    };
+  const getMovimientos = () => {
+    axios
+      .get(`${BASE_URL}/ahorros/mov/${dropDown}/5`, {
+        headers: {Authorization: `Bearer ${userInfo.access_token}`},
+      })
+      .then(res => {
 
-    useEffect(() => {
-      getCuentass();
-      getMovimientos();
-    }, [dropDown])
+        let Movimientos5 = res.data;
+        setMovimientos(Movimientos5)
+        //setMovimientos2(JSON.stringify(Movimientos5))
+       // console.log("Movimientos");
+        //console.log(res.data);
+        AsyncStorage.setItem('Movimientos', JSON.stringify(Movimientos5));   
+     
+      })
+      .catch(e => {
+        console.log(`movimientos list error ${e}`);
+        console.log(codigoUsuairo);
+      });
+  };
 
-    let cuentaSelect= cuentas;
-    let MovimientosLista5= Movimientos;
-    let movimientos2test = Movimientos2;
-    const dataFields = MovimientosLista5;
+  useEffect(() => {
+    getCuentass();
+    getMovimientos();
+  }, [dropDown])
 
-     if(dropDown){
+  let cuentaSelect= cuentas;
+  let MovimientosLista5= Movimientos;
+  let movimientos2test = Movimientos2;
+  const dataFields = MovimientosLista5;
 
-      cuentaSelect = cuentaSelect.filter(function(item){
-        return item.cuenta == dropDown;
-     }).map(function({cagencia, cempresa, desproducto,saldo}){
-         return {cagencia, cempresa, desproducto, saldo};
-     });
+   if(dropDown){
 
-     MovimientosLista5 = MovimientosLista5.filter(function(item){
-        return item.cuenta == dropDown;
-      }).map(function({ fecha, glosa,importe}){
-        var date = new Date(fecha)
-            return {date, glosa, importe};
-     });
+    cuentaSelect = cuentaSelect.filter(function(item){
+      return item.cuenta == dropDown;
+   }).map(function({cagencia, cempresa, desproducto,saldo}){
+       return {cagencia, cempresa, desproducto, saldo};
+   });
+
+   MovimientosLista5 = MovimientosLista5.filter(function(item){
+      return item.cuenta == dropDown;
+    }).map(function({ fecha, glosa,importe}){
+      var date = new Date(fecha)
+          return {date, glosa, importe};
+   });
 
 
-    console.log(MovimientosLista5)
-       
-     }
+  console.log(MovimientosLista5)
+     
+   }
 
-    return(
+   return(
 
     <>
     <View style={styles.cardView}>
-    <Text style={styles.itemTitle}>AHORROS</Text>
+      <Text style={styles.itemTitle}>CREDITOS</Text>
     <Picker 
           prompt = 'Seleccione Numero de Cuenta'
           itemStyle={{color:'white'}}  

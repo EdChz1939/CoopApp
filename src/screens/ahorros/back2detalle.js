@@ -100,7 +100,77 @@ export default function AoDetalle({route, navigation}) {
 
   return (
     <>
+    <Modal
+        animationType="slide"
+        onDismiss={()=> console.log('close')}
+        onShow={() => console.log('show')}
+        transparent={true}
+        visible= {ViewDetalle}
+      >
+        <View
+        style={{
+          flex:1,
+          backgroundColor: 'rgba (1,1,1, 0.5)',
+          justifyContent:'center',
+          alignItems: 'center',
+        }}>
 
+          <View
+            style={{
+              height: '80%',
+              width: '90%',
+              backgroundColor: '#D5D5D5',
+              borderRadius: 30,
+            }}
+          >
+          
+          <Text style={styles.TitleText} >Detalle cuenta</Text>
+          <View style={styles.wrapperItems}>
+
+
+     
+        <DataTable.Row>
+        <DataTable.Cell  textStyle={styles.textDetalle}>Garante</DataTable.Cell>
+        <DataTable.Cell  textStyle={styles.textDetalle}>Edson Chavez Chavez Chavez</DataTable.Cell>
+        </DataTable.Row>
+        <DataTable.Row>
+        <DataTable.Cell  textStyle={styles.textDetalle}>Garante</DataTable.Cell>
+        <DataTable.Cell  textStyle={styles.textDetalle}>Carlos Chavez Chavez Chavez </DataTable.Cell>
+        </DataTable.Row>
+        <DataTable.Row>
+        <DataTable.Cell  textStyle={styles.textDetalle}>Garante</DataTable.Cell>
+        <DataTable.Cell  textStyle={styles.textDetalle}>Fernando Chavez Chavez Chavez</DataTable.Cell>
+        </DataTable.Row>
+        <DataTable.Row>
+        <DataTable.Cell  textStyle={styles.textDetalle}>Fecha otorgacion</DataTable.Cell>
+        <DataTable.Cell  textStyle={styles.textDetalle}>20-20-20</DataTable.Cell>
+        </DataTable.Row>
+        <DataTable.Row>
+        <DataTable.Cell  textStyle={styles.textDetalle}>Fecha Fin</DataTable.Cell>
+        <DataTable.Cell  textStyle={styles.textDetalle}>20-20-22</DataTable.Cell>
+        </DataTable.Row>
+        <DataTable.Row>
+        <DataTable.Cell  textStyle={styles.textDetalle}>Plazo</DataTable.Cell>
+        <DataTable.Cell  textStyle={styles.textDetalle}>30 Coutas</DataTable.Cell>
+        </DataTable.Row>
+        <DataTable.Row>
+        <DataTable.Cell  textStyle={styles.textDetalle}>Taza</DataTable.Cell>
+        <DataTable.Cell  textStyle={styles.textDetalle}>30 %</DataTable.Cell>
+        </DataTable.Row>
+          </View>
+          </View>
+          
+          <TouchableOpacity style={styles.button} onPress= {() => setViewDetalle(false)}>
+          <Text style={{fontWeight: 'bold', color: '#fff', fontSize: 18}}>Cerrar</Text>
+          </TouchableOpacity>
+                
+     
+
+
+
+        </View>
+
+    </Modal>
     <View style={styles.background}>
     <ScrollView>
   
@@ -112,8 +182,13 @@ export default function AoDetalle({route, navigation}) {
         <Text style={styles.itemTitle}>{numeroCuenta}  </Text> 
         <Text style={styles.itemDescription}>{desproducto}</Text>
         <View style={styles.btnFechas}>
+      
+        <Text style={styles.itemSaldo}>Monto Otor: 120000 bs  </Text>
         <Text style={styles.itemSaldo}>Saldo: {saldo} bs. </Text>
-
+   
+        <TouchableOpacity  onPress= {() => setViewDetalle(true)}>
+          <Text style={styles.btnTextGarantes}>Detalle</Text>
+        </TouchableOpacity>
   
         </View>
       </View>
@@ -293,7 +368,7 @@ itemDescription: {
     marginBottom:5,
 },
 itemSaldo: {
-  alignSelf:'flex-end',
+
   color: 'white',
   fontSize: 18,
   shadowColor: '#000',

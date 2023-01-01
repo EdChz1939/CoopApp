@@ -50,7 +50,7 @@ function BottomTabNavigator(){
           }}
           />
           <Text style={{ color : focused ? '#e32f45' : '#ffffff', fontSize: 12}}>
-            DETALLE
+            CREDITOS
           </Text>
         </View>
       )
@@ -68,7 +68,7 @@ function BottomTabNavigator(){
           }}
           />
           <Text style={{ color : focused ? '#e32f45' : '#ffffff', fontSize: 12}}>
-            APORTES
+            CAO
           </Text>
         </View>
       )

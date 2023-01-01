@@ -12,7 +12,7 @@ export default {
   AO_DETALLE: 'AO detalle',
   AO_NAVIGAOTR: 'AO Navigator',
 
-  CR_INICIO: 'Cr Inicio',
+  HOME_TAB_CR: 'Cr Inicio',
   CR_DETALLE: 'Cr Detalle',
   CR_NAVIGATOR: 'cr navigator',
 

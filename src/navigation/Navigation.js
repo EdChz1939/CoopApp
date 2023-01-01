@@ -47,7 +47,7 @@ export default function Navigation() {
           }}
           />
           <Text style={{ color : focused ? '#e32f45' : '#ffffff', fontSize: 12}}>
-            AHORROS
+            AHORROSss
           </Text>
         </View>
       )
@@ -100,20 +100,10 @@ export default function Navigation() {
   
   
       }
-
-      
-      
-  
-
-
-   
     </Tab.Navigator>
   )
 }
 
-/*
-
-*/
 
 const styles = StyleSheet.create({
   shadow:{

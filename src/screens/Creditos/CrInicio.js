@@ -1,26 +1,23 @@
 import { StyleSheet, Text, View, TouchableOpacity, Dimensions} from 'react-native'
-import React,{Component, useState, useEffect, useContext} from 'react'
-import AoCuentas from '../ahorros/AoCuentas';
-import { FlatList } from 'react-native-gesture-handler';
+import React,{Component, useContext, useState, useEffect} from 'react';
+import CrCuentas from './CrCuentas';
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { Table, Row, Rows } from 'react-native-table-component';
 import { LogBox, LogBoxNotification } from 'react-native-web-log-box'
 import { useNavigation } from "@react-navigation/native";
 import {ROUTES, screen} from '../../utils'
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../../context/AuthContext';
-
-
+///////////base db
+import axios from 'axios';
+import { BASE_URL } from "../../config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 LogBox.ignoreLogs(["Invalid prop `textStyle` of type `array` supplied to `Cell`"]);
 FlatList
 
-const tableHead = ['Fecha', 'Detalle', 'Monto']
-const tableData= [
-  [ '08 AGOS', 'Deposito', '200,00'],
-  [ '08 AGOS', 'Deposito', '200,00'],
-  [ '08 AGOS', 'Retiro', '-1.000,00'],
-  ['08 AGOS', 'Retiro', '-1.000,00']
-]
+const { width, height } = Dimensions.get('window')
+
 
 
 export default function CrInicio(props) {
@@ -37,35 +34,42 @@ export default function CrInicio(props) {
 
   return (
   <View style={styles.background}>
-    
-    <AoCuentas/>
-    <View style={styles.container}>
-        <Table borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
-          <Row data={tableHead} style={styles.head} textStyle={styles.text}/>
-          <Rows data={tableData}  textStyle={styles.text}/>
-        </Table>
-    </View>
-    <TouchableOpacity onPress={goToAoDetalle}>
-            <Text style={styles.btnText}>Todos los movimientos</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={logout}>
-            <Text style={styles.btnText}>Cerrar Session</Text>
-      </TouchableOpacity>
+      <View style={styles.background}>
+      <ScrollView>
+      <CrCuentas/>
+      </ScrollView>
+  </View>
+
+
   </View>
   )
 }
-
-
 const styles = StyleSheet.create({
+
+  buttonContainer4: {
+    width: width - 200,
+    height: height / 14,
+    backgroundColor: '#fff',
+    margin: 10,
+    borderRadius: 10,
+    shadowColor: '#000',
+    justifyContent: 'center',
+		alignItems: 'center',
+    shadowOffset: { width: 0.5, height: 0.5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+    elevation: 5,
+	},
+	buttonText4: {
+		fontSize: 15,
+	},
   container: {
-     flex: 1,
      padding: 16,
-      paddingTop: 30, 
-      backgroundColor: '#fff'
+      paddingTop: 10, 
      },
   head: {
      height: 40, 
-    backgroundColor: '#f1f8ff'
+    backgroundColor: '#bababa'
    },
   text: { 
     margin: 6,
@@ -92,10 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding:10,
 },
-  background: {
-    backgroundColor: '#FFFFFF',
-    height: '100%',
-  },
+
   userName: {
     color: '#000000',
     fontSize: 16,
